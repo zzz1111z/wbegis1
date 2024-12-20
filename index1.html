@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中国省份数据可视化</title>
+
+  <!-- 引入外部样式 -->
+  <link rel="stylesheet" href="styles.css">
+  
+  <!-- 引入高德地图API -->
+  <script src="https://webapi.amap.com/maps?v=2.0&key=38ba3ed51507b1c4e5393aa4c8046005"></script>
+  
+  <!-- 引入Chart.js库 -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* 设置地图容器的大小 */
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+
+      /* 调整标题和下拉框的布局 */
+      header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+   /* 侧边栏样式 */
+   #sidebar {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 20px;
+      display: none;
+    }
+
+    #closeBtn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+
+    /* 设置省份选择下拉框样式 */
+    #dropdown-container {
+      margin: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>中国省份数据可视化</header>
+  
+
+  <!-- 高德地图容器 -->
+  <div id="map"></div>
+
+  <!-- 省份选择下拉框 -->
+  <div id="dropdown-container">
+    <select id="provinceSelect" onchange="onProvinceSelectChange()">
+      <option value="">请选择省份</option>
+      <option value="广东省">广东省</option>
+      <option value="北京市">北京市</option>
+      <option value="上海市">上海市</option>
+      <option value="江苏省">江苏省</option>
+      <option value="浙江省">浙江省</option>
+      <option value="天津市">天津市</option>
+      <option value="河北省">河北省</option>
+      <option value="山西省">山西省</option>
+      <option value="内蒙古自治区">内蒙古自治区</option>
+      <option value="辽宁省">辽宁省</option>
+      <option value="吉林省">吉林省</option>
+      <option value="黑龙江省">黑龙江省</option>
+      <option value="安徽省">安徽省</option>
+      <option value="福建省">福建省</option>
+      <option value="江西省">江西省</option>
+      <option value="山东省">山东省</option>
+      <option value="河南省">河南省</option>
+      <option value="湖北省">湖北省</option>
+      <option value="湖南省">湖南省</option>
+      <option value="广西壮族自治区">广西壮族自治区</option>
+      <option value="海南省">海南省</option>
+      <option value="重庆市">重庆市</option>
+      <option value="四川省">四川省</option>
+      <option value="贵州省">贵州省</option>
+      <option value="云南省">云南省</option>
+      <option value="西藏自治区">西藏自治区</option>
+      <option value="陕西省">陕西省</option>
+      <option value="甘肃省">甘肃省</option>
+      <option value="青海省">青海省</option>
+      <option value="宁夏回族自治区">宁夏回族自治区</option>
+      <option value="新疆维吾尔自治区">新疆维吾尔自治区</option>
+    </select>
+  </div>
+
+  <!-- 表格和图表将在这里显示 -->
+  <table id="dataTable"></table>
+  <canvas id="chart"></canvas>
+
+  <!-- 侧边栏（侧拉框） -->
+  <div id="sidebar">
+    <button id="closeBtn" onclick="closeSidebar()">×</button>
+    <table id="dataTable"></table>
+    <canvas id="chart"></canvas>
+  </div>
+
+  <!-- 引入外部 JavaScript -->
+  <script src="app.js"></script>
+
+  <script>
+    // 避免重复定义map变量
+    var amap = new AMap.Map('map', {
+      zoom: 5,
+      center: [116.397428, 39.90923] // 默认北京市
+    });
+
+
+    // 高德地图初始化
+    var map = new AMap.Map('map', {
+      zoom: 5, // 设置初始缩放级别
+      center: [116.397428, 39.90923], // 设置初始地图中心点（北京市）
+    });
+
+    // 在选择省份时更新地图视图
+    function onProvinceSelectChange() {
+      var province = document.getElementById('provinceSelect').value;
+      if (province === '广东省') {
+        map.setCenter([113.280637, 23.125178]); // 设置广东省中心点
+        map.setZoom(7); // 设置缩放级别
+      } else if (province === '北京市') {
+        map.setCenter([116.397428, 39.90923]); // 设置北京市中心点
+        map.setZoom(10);
+      } else if (province === '上海市') {
+        map.setCenter([121.473701, 31.230416]); // 设置上海市中心点
+        map.setZoom(10);
+      } else {
+        // 其他省份设置默认位置
+        map.setCenter([116.397428, 39.90923]); 
+        map.setZoom(5); // 默认缩放级别
+      }
+    }
+
+    // 关闭侧边栏
+    function closeSidebar() {
+      document.getElementById('sidebar').style.display = 'none';
+    }
+
+    // 显示侧边栏
+    function openSidebar() {
+      document.getElementById('sidebar').style.display = 'block';
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,135 @@
+/* 全局样式 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f0f0f0;
+}
+
+header {
+  background-color: #6F8F72;
+  color: white;
+  padding: 20px;
+  width: 100%;
+  text-align: center;
+  font-size: 26px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* 地图容器样式 */
+#map {
+  width: 100%;
+  height: 100%;
+  margin-top: 20px;
+}
+
+/* 省份选择下拉框样式 */
+#dropdown-container {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000; /* 保证下拉框位于地图上方 */
+}
+
+select {
+  padding: 12px;
+  margin-bottom: 20px;
+  width: 250px;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s;
+}
+
+select:hover {
+  border-color: #6F8F72;
+}
+
+/* 侧边栏表格样式 */
+#sidebar {
+  position: fixed;
+  top: 0;
+  right: -400px; /* 隐藏在右侧 */
+  width: 400px;
+  height: 100%;
+  background-color: #ffffff;
+  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  transition: right 0.3s ease; /* 右侧弹出动画 */
+  padding: 20px;
+  z-index: 999;
+}
+
+#sidebar.show {
+  right: 0; /* 当显示时，滑出 */
+}
+
+/* 关闭按钮样式 */
+#closeBtn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: transparent;
+  border: none;
+  font-size: 30px;
+  color: #333;
+  cursor: pointer;
+}
+
+#closeBtn:hover {
+  color: #6F8F72;
+}
+
+
+/* 表格样式 */
+table {
+  width: 100%;
+  margin: 20px 0;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 12px;
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+th {
+  background-color: #6F8F72;
+  color: white;
+}
+
+td {
+  background-color: #f9f9f9;
+}
+
+/* 图表样式 */
+canvas {
+  width: 100%;
+  height: 400px;
+  margin-top: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+/* 响应式样式：优化小屏设备 */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  select {
+    width: 100%;
+    padding: 10px;
+  }
+
+  canvas {
+    width: 100%;
+    height: 300px;
+  }
+}

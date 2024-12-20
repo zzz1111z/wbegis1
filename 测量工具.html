@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测量工具</title>
+    <link rel="stylesheet" href="./css/celiang.css" />
+    <!-- 引入自定义的样式文件，用于定义页面的整体样式 -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- 引入高德地图 JS API 2.0 脚本以及各类插件 -->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=e97dccfe0991e0cfc7b8ff398d1b7525&plugin=AMap.MouseTool,AMap.Driving,AMap.Transfer,AMap.Walking"></script>
+    <script src="https://webapi.amap.com/loca?v=2.0.0&key=e97dccfe0991e0cfc7b8ff398d1b7525"></script>
+    <script src="http://webapi.amap.com/ui/1.1/main.js?v=1.1.1"></script>
+</head>
+
+<body>
+    <!-- 地图容器，添加类名用于样式设置，使其占满整个页面 -->
+    <div id="container" class="map-container"></div>
+    <h3 id="title">GIS地图助手 - 测量工具</h3>
+    <!-- 测量功能窗口，添加类名用于样式设置，使其呈现为卡片样式 -->
+    <div id="measure_window" class="measure-card">
+        <h4>测量工具</h4>
+        <div class="button-group">
+            <button id="measure_button_start">开始测量</button>
+            <button id="measure_button_stop">结束测量</button>
+        </div>
+    </div>
+
+    <script>
+        // 创建地图实例
+        const map = new AMap.Map('container', {
+            zoom: 10,
+            center: [116.397428, 39.90923], // 默认中心点: 北京天安门
+        });
+
+        let mouseTool = new AMap.MouseTool(map); // 初始化测量工具实例
+        let measureActive = false; // 标记测量工具是否激活
+
+        // 开始测量按钮点击事件
+        document.getElementById('measure_button_start').onclick = function () {
+            if (!measureActive) {
+                measureActive = true;
+                // 开启测量工具，选择测量类型（如：距离测量、面积测量）
+                mouseTool.measure('polygon'); // 可以选择 'line', 'polygon', 'rectangle', 'circle'
+                alert('测量工具已开启');
+            } else {
+                alert('测量工具已在运行');
+            }
+        };
+
+        // 结束测量按钮点击事件
+        document.getElementById('measure_button_stop').onclick = function () {
+            if (measureActive) {
+                mouseTool.close(); // 关闭测量工具
+                measureActive = false;
+                alert('测量工具已结束，结果已清除');
+            } else {
+                alert('测量工具未运行');
+            }
+        };
+
+        // 监听测量结果，获取并存储测量结果
+        map.on('draw', function (e) {
+            console.log('测量结果：', e.obj); // 这里可以处理测量的结果
+        });
+    </script>
+</body>
+
+</html>

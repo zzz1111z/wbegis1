@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>路径测量工具</title>
+
+    <link rel="stylesheet" href="styles1.css">
+
+    <!-- 引入高德地图 API -->
+    <script src="https://webapi.amap.com/maps?v=2.0&key=e97dccfe0991e0cfc7b8ff398d1b7525&plugin=AMap.RangingTool"></script>
+    <style>
+        /* 设置地图容器的宽度和高度 */
+        #container {
+            width: 100%;
+            height: 100vh; /* 使地图填满整个视口 */
+    margin: 0;
+    padding: 0;
+        }
+
+        /* 按钮样式 */
+        .toolbar {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        button {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: #6F8F72;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #6F8F72;
+        }
+
+        /* 显示测量结果 */
+        .measure-result {
+            position: absolute;
+            bottom: 20px;
+            left: 220px;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            font-size: 16px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <!-- 地图容器 -->
+    <div id="container"></div>
+
+    <!-- 工具栏 -->
+    <div class="toolbar">
+        <button id="startMeasure">开始测量</button>
+        <button id="endMeasure">结束测量</button>
+    </div>
+
+    <!-- 显示测量结果 -->
+    <div id="result" class="measure-result">路径测量结果: </div>
+
+    <script>
+        // 初始化地图
+        var map = new AMap.Map('container', {
+            center: [116.397428, 39.90923], // 设置地图中心点为北京
+            zoom: 13, // 设置初始缩放级别
+        });
+
+        var markers = []; // 用于保存标记点
+        var polyline = null; // 用于保存绘制的线段
+        var distanceDiv = document.getElementById('result'); // 测量结果显示区域
+        var measuring = false; // 是否正在测量
+
+        // 初始化测量工具
+        var rangingTool = new AMap.RangingTool(map);
+
+        // 开始测量按钮点击事件
+        document.getElementById('startMeasure').onclick = function() {
+            if (measuring) {
+                alert("测量已经开始，请点击地图选择两个点。");
+                return;
+            }
+            measuring = true;
+            markers = []; // 清空之前的标记
+            polyline && polyline.setMap(null); // 清除之前的线段
+
+            distanceDiv.innerHTML = "路径测量结果: "; // 重置测量结果
+
+            alert("请在地图上选择两个点进行测量。");
+        };
+
+        // 结束测量按钮点击事件
+        document.getElementById('endMeasure').onclick = function() {
+            if (!measuring) {
+                alert("当前没有进行测量操作！");
+                return;
+            }
+
+            measuring = false; // 结束测量
+
+            // 清除地图上的标记和线段
+            markers.forEach(function(marker) {
+                marker.setMap(null);
+            });
+            if (polyline) {
+                polyline.setMap(null);
+            }
+
+            distanceDiv.innerHTML = "路径测量结果: "; // 重置显示结果
+            alert("测量结束，已清除测量信息。");
+        };
+
+        // 鼠标点击事件，选择两个点并进行测量
+        map.on('click', function(e) {
+            if (!measuring || markers.length >= 2) return; // 如果没有开启测量或者已经选择了两个点
+
+            var marker = new AMap.Marker({
+                position: e.lnglat,
+                map: map,
+            });
+            markers.push(marker);
+
+            // 如果已经选择了两个点，开始计算距离
+            if (markers.length === 2) {
+                var start = markers[0].getPosition();
+                var end = markers[1].getPosition();
+                
+                // 绘制两点之间的线段
+                polyline = new AMap.Polyline({
+                    path: [start, end],
+                    strokeColor: "#ff0000", // 设置线段颜色
+                    strokeWeight: 3, // 设置线宽
+                    map: map
+                });
+
+                // 计算两点间的距离并显示
+                var distance = AMap.GeometryUtil.distance(start, end); // 获取两点间的距离
+                distanceDiv.innerHTML = '路径测量结果: ' + distance.toFixed(2) + ' 米';
+            }
+        });
+    </script>
+</body>
+</html>

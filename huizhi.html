@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>地图绘制工具</title>
+    <script type="text/javascript" src="http://api.tianditu.gov.cn/api?v=4.0&tk=26125a6475e3b1b541aae8b309759ebf"></script>
+    <style type="text/css">
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            font-family: "微软雅黑";
+        }
+
+        #mapDiv {
+            height: 90%;
+            width: 100%;
+        }
+
+        p,input {
+            margin-top: 10px;
+            margin-left: 5px;
+            font-size: 14px;
+        }
+    </style>
+    <script>
+        var map, zoom = 12, handler;
+        function onLoad() {
+            //初始化地图对象
+            map = new T.Map("mapDiv");
+            //设置显示地图的中心点和级别
+            map.centerAndZoom(new T.LngLat(116.40969, 39.94940), zoom);
+            //允许鼠标双击放大地图
+            map.enableScrollWheelZoom();
+            
+            var config = {
+                showLabel: true,
+                color: "blue", weight: 3, opacity: 0.5, fillColor: "#FFFFFF", fillOpacity: 0.5
+            };
+            //创建标注工具对象
+            polygonTool = new T.PolygonTool(map, config);
+        }
+
+        function openPolygonTool() {
+            if (handler) handler.close();
+            handler = new T.PolygonTool(map);
+            handler.open();
+        }
+
+        function openPolylineTool() {
+            if (handler) handler.close();
+            handler = new T.PolylineTool(map);
+            handler.open();
+        }
+
+        function openMarkerTool() {
+            if (handler) handler.close();
+            handler = new T.MarkTool(map, {follow: true});
+            handler.open();
+        }
+
+        function openRectangleTool() {
+            if (handler) handler.close();
+            handler = new T.RectangleTool(map, {follow: true});
+            handler.open();
+        }
+        function openCircleTool() {
+            if (handler) handler.close();
+            handler = new T.CircleTool(map, {follow: true});
+            handler.open();
+        }
+
+        function getLayerCount() {
+            return map.getOverlays().length;
+
+        }
+
+    </script>
+</head>
+<body onLoad="onLoad()">
+<div id="mapDiv"></div>
+<p>本例演示多种覆盖物工具</p>
+<div>
+    <input type="button" value="点工具" onClick='openMarkerTool() '/>
+    <input type="button" value="多边形工具" onClick='openPolygonTool() '/>
+    <input type="button" value="线工具" onClick='openPolylineTool() '/>
+    <input type="button" value="矩形工具" onClick='openRectangleTool() '/>
+    <input type="button" value="画圆工具" onClick='openCircleTool() '/>
+    <input type="button" value="获取图层个数" onClick='alert(getLayerCount()) '/>
+    <input type="button" value="清除所有" onClick='map.clearOverLays()'/>
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小z地理小站</title>
+    <style>
+        /* 全局样式 */
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #DCEFE2, #F6F3E9); /* 清新背景渐变 */
+            color: #5B5D56; /* 自然灰色文字 */
+            overflow: hidden;
+        }
+        /* 容器 */
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 50px;
+            height: 100vh;
+            position: relative;
+        }
+        /* 左侧图片 */
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            animation: zoomIn 1.5s forwards;
+        }
+        .image-container img {
+            width: 600px; /* 放大图片 */
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        /* 右侧文字 */
+        .text-section {
+            flex: 1;
+            text-align: left;
+            opacity: 0;
+            animation: slideIn 1.5s forwards;
+        }
+        .text-section h1 {
+            font-size: 48px;
+            font-weight: bold;
+            color: #3D5C47; /* 深绿色标题 */
+            margin-bottom: 20px;
+        }
+        .text-section p {
+            font-size: 18px;
+            color: #5B5D56;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        /* 按钮 */
+        .buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .button {
+            text-decoration: none;
+            color: #F6F3E9;
+            background-color: #4F6F52; /* 按钮深绿色 */
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease-in-out;
+        }
+        .button:hover {
+            background-color: #6F8F72; /* 浅绿色悬停效果 */
+            transform: scale(1.1);
+        }
+        /* 动画效果 */
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes zoomIn {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        /* 背景装饰元素 */
+        .decorative-shapes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        .shape {
+            position: absolute;
+            background: #E8F2DF; /* 淡绿色装饰 */
+            border-radius: 50%;
+            opacity: 0.5;
+            animation: float 6s infinite ease-in-out alternate;
+        }
+        .shape:nth-child(1) {
+            width: 200px; height: 200px; top: 10%; left: 20%;
+        }
+        .shape:nth-child(2) {
+            width: 150px; height: 150px; bottom: 10%; right: 15%;
+        }
+        .shape:nth-child(3) {
+            width: 300px; height: 300px; top: 40%; left: 50%;
+        }
+        @keyframes float {
+            from { transform: translateY(0); }
+            to { transform: translateY(-30px); }
+        }
+        /* 小动画 */
+        .animated-element {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: #4F6F52;
+            border-radius: 50%;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0) translateX(-50%);
+            }
+            40% {
+                transform: translateY(-30px) translateX(-50%);
+            }
+            60% {
+                transform: translateY(-15px) translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 背景装饰 -->
+    <div class="decorative-shapes">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+
+    <!-- 左侧图片 -->
+    <div class="image-container">
+        <img src="geography-2593903_1280.jpg" alt="地理图片">
+    </div>
+
+    <!-- 右侧文字和按钮 -->
+    <div class="text-section">
+        <h1>欢迎来到小z地理小站</h1>
+        <p>这是一个展示地理数据和地图分析的小站，在这里你可以体验到以下三种工具，让我们一起遨游在地理的海洋里吧。</p>
+        <div class="buttons">
+            <a href="shengfen.html" class="button">中国省份数据可视化</a>
+            <a href="celiang.html" class="button">路线测量</a>
+            <a href="huizhi copy.html" class="button">地图绘制工具</a>
+        </div>
+    </div>
+</div>
+
+<!-- 小动画 -->
+<div class="animated-element"></div>
+
+</body>
+</html>
